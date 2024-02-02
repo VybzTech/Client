@@ -2,14 +2,14 @@ import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
 import axios from "axios";
-import router from "../../Server/routes/Router";
+// import router from "../../Server/routes/Router";
 function App() {
   // const [name,setName]=
   const [error, setError] = useState("");
-  const [name, setName] = useState("");
-  const [message, setMessage] = useState("");
-  const [processing, setProcessing] = useState(false);
-  const [userData, setUserData] = useState("");
+  const [name, setName] = useState("David");
+  const [message, setMessage] = useState("Template Message to send");
+  // const [processing, setProcessing] = useState(false);
+  // const [userData, setUserData] = useState("");
 
   // OLD FETCH API
   // const fetchData = async () => {
@@ -30,41 +30,59 @@ function App() {
   //     }).catch(err=>console.error(err));
   // };
 
-  const postData = () => {
+  const postData = async () => {
     const postData = {
       user: name,
       msg: message,
     };
-    // await axios.post("http://localhost:5000/contact",postData).then(res=>set)
-    //   try{name===""||message===""?console.log('Error No data'):router.post("/contact",{name,message})}
+    await axios
+      .post("http://localhost:5000/contact", postData)
+      .then((res) => {
+        setError("Successfully sent data");
+        setTimeout(()=>setError(""), 2500);
+      })
+      // .then((val) =>
+      // )
+      .catch((e) => console.error(e));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name + " | " + " " + message + "|  ");
+    console.log(name + " |  " + message + "|  ");
     if (!name || !message) {
       console.log("Error No data");
     } else {
       console.log("No Errors");
     }
+    setError("");
     postData();
+    setName((name) => (name === "David" ? "Stephen" : "Elijah"));
+    setMessage((msg) =>
+      msg === "Template Message to send"
+        ? "New Message to be sent"
+        : "Final Message for sending"
+    );
   };
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
+        {/* <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+      */}
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="https://open.spotify.com/track/0x8waPhRHIyK83064VSaXE?si=5b160fc5d9b84b61"
           target="_blank"
           rel="noopener noreferrer"
         >
           Learn React
         </a>
-        <button onClick={handleSubmit}></button>
+        <button onClick={handleSubmit}>Submit</button>
+        <p>{error}</p>
+        <p>From: {name}</p>
+        <p>Body: {message}</p>
       </header>
     </div>
   );
