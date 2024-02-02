@@ -32,11 +32,11 @@ function App() {
 
   const postData = () => {
     const postData = {
-      user:name,
-      msg:message,
-    }
-    await axios.post("http://localhost:5000/contact",postData).then(res=>set)
-      try{name===""||message===""?console.log('Error No data'):router.post("/contact",{name,message})}
+      user: name,
+      msg: message,
+    };
+    // await axios.post("http://localhost:5000/contact",postData).then(res=>set)
+    //   try{name===""||message===""?console.log('Error No data'):router.post("/contact",{name,message})}
   };
 
   const handleSubmit = (e) => {
