@@ -1,7 +1,11 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
 import axios from "axios";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import PrivateRoutes from "./utils/PrivateRoutes";
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import Login from "./pages/Login";
 // import router from "../../Server/routes/Router";
 function App() {
   // const [name,setName]=
@@ -39,7 +43,7 @@ function App() {
       .post("http://localhost:5000/contact", postData)
       .then((res) => {
         setError("Successfully sent data");
-        setTimeout(()=>setError(""), 2500);
+        // setTimeout(()=>setError(""), 2500);
       })
       // .then((val) =>
       // )
@@ -63,27 +67,18 @@ function App() {
         : "Final Message for sending"
     );
   };
+  // httpOnly='true' requireSSl='true'
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {/* <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      */}
-        <a
-          className="App-link"
-          href="https://open.spotify.com/track/0x8waPhRHIyK83064VSaXE?si=5b160fc5d9b84b61"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <button onClick={handleSubmit}>Submit</button>
-        <p>{error}</p>
-        <p>From: {name}</p>
-        <p>Body: {message}</p>
-      </header>
+      <Router>
+        <Routes>
+          <Route element={<PrivateRoutes />}>
+            <Route element={<Home />} path="/*" />
+            <Route element={<Products />} path="/products/*" />
+          </Route>
+          <Route element={<Login />} path="/login" exact />
+        </Routes>
+      </Router>
     </div>
   );
 }
